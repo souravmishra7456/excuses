@@ -470,18 +470,16 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
             </div>
 
             {/* Right - Contact Us */}
-            <div className="flex space-x-4 sm:space-x-6 text-gray-400">
-              <a
-                href="https://sourav-portfolio-psi.vercel.app/contact" // Replace with actual contact link
-                className="text-sm sm:text-base hover:text-white transition-colors"
-              >
-                Contact Us
-              </a>
+            <div className="flex space-x-6 text-gray-400">
+              <a href="/" className="hover:text-white transition-colors">Home</a>
+              <a href="/docs" className="text-purple-400 font-semibold">Documentation</a>
+              <a href="https://sourav-portfolio-psi.vercel.app/contact" className="hover:text-white transition-colors" target="_blank">Contact Us</a>
+              <a href="https://sourav-portfolio-psi.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-semibold hover:text-purple-600 transition-colors">About the Creator</a>
             </div>
           </div>
 
           <div className="text-center text-gray-500 mt-6 sm:mt-8 text-sm">
-            © 2025 DevExcuse API. Made with ❤️ for developers who need creative excuses.
+            © 2025 DevExcuse API.
           </div>
         </footer>
 
