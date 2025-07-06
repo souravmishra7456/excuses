@@ -98,29 +98,21 @@ const DevExcuseLanding = () => {
       case '/excuse':
         return '/excuse';
       case '/excuse?count=3':
-        return count && count !== '1' ? `/excuse?count=${count}` : '/excuse?count=3';
+        return count ? `/excuse?count=${count}` : '/excuse?count=3';
       case '/excuse?category=AI':
         return category ? `/excuse?category=${category}` : '/excuse?category=AI';
       case '/excuse?count=3&category=backend':
-        let url = '/excuse?';
         const params = new URLSearchParams();
-        if (count && count !== '1') {
-          params.append('count', count);
-        } else {
-          params.append('count', '3');
-        }
-        if (category) {
-          params.append('category', category);
-        } else {
-          params.append('category', 'backend');
-        }
-        return '/excuse?' + params.toString();
+        params.append('count', count || '3');
+        params.append('category', category || 'backend');
+        return `/excuse?${params.toString()}`;
       case '/search':
         return searchQuery ? `/search?q=${encodeURIComponent(searchQuery)}` : '/search?q=cache';
       default:
         return basePath;
     }
   };
+
 
   const callRealApi = async (endpoint) => {
     setLoading(true);
