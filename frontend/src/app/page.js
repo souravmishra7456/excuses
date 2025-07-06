@@ -9,7 +9,44 @@ const DevExcuseLanding = () => {
   const [activeEndpoint, setActiveEndpoint] = useState('/excuse');
   const [apiResponse, setApiResponse] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
+  const [loadingStartTime, setLoadingStartTime] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  // Show modal on first visit
+  React.useEffect(() => {
+    const hasSeenModal = localStorage.getItem('hasSeenModal');
+    if (!hasSeenModal) {
+      setShowModal(true);
+      localStorage.setItem('hasSeenModal', 'true');
+    }
+  }, []);
+
+  // Update loading messages based on time
+  React.useEffect(() => {
+    if (!loading || !loadingStartTime) return;
+
+    const messages = [
+      { time: 5000, message: "Still loading... The server might be waking up from sleep mode 😴" },
+      { time: 10000, message: "Taking a bit longer than usual... Our free tier is getting warmed up! 🔥" },
+      { time: 15000, message: "Almost there! The server is definitely awake now... ⚡" },
+      { time: 20000, message: "Hang tight! This is normal for the first request after inactivity 🚀" },
+      { time: 25000, message: "We're working on it! The API is processing your request... 💪" },
+      { time: 30000, message: "Just a few more seconds... Your excuse is being crafted with care! ✨" }
+    ];
+
+    const updateMessage = () => {
+      const elapsed = Date.now() - loadingStartTime;
+      const currentMessage = messages.find(msg => elapsed >= msg.time);
+      if (currentMessage) {
+        setLoadingMessage(currentMessage.message);
+      }
+    };
+
+    const interval = setInterval(updateMessage, 1000);
+    return () => clearInterval(interval);
+  }, [loading, loadingStartTime]);
 
   // Function to handle endpoint change and reset response
   const handleEndpointChange = (endpoint) => {
@@ -117,6 +154,8 @@ const DevExcuseLanding = () => {
   const callRealApi = async (endpoint) => {
     setLoading(true);
     setApiResponse('');
+    setLoadingMessage('Your response is being loaded...');
+    setLoadingStartTime(Date.now());
 
     // Build the actual endpoint URL with current parameters
     const actualEndpoint = buildEndpointUrl(endpoint);
@@ -180,6 +219,8 @@ const DevExcuseLanding = () => {
       }, null, 2));
     } finally {
       setLoading(false);
+      setLoadingMessage('');
+      setLoadingStartTime(null);
     }
   };
 
@@ -270,7 +311,18 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
               Never run out of creative excuses again. Our API provides 100+ developer-tested excuses
               for every situation, categorized and searchable.
             </p>
-            <div className="flex justify-center">
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-4">
+              <button
+                onClick={() => {
+                  document.getElementById('api-explorer').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+                }}
+                className="px-6 sm:px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors inline-block text-sm sm:text-base cursor-pointer"
+              >
+                Try It
+              </button>
               <a
                 href="/docs"
                 className="px-6 sm:px-8 py-3 border border-gray-600 text-gray-300 rounded-lg font-semibold hover:bg-gray-800 transition-colors inline-block text-sm sm:text-base"
@@ -296,7 +348,7 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
         </section>
 
         {/* API Explorer */}
-        <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <section id="api-explorer" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
           <div className="max-w-6xl mx-auto">
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 text-center">Interactive API Explorer</h3>
 
@@ -431,8 +483,11 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
 
                   <div className="bg-gray-900 rounded-lg p-3 sm:p-4 min-h-[150px] sm:min-h-[200px]">
                     {loading ? (
-                      <div className="flex items-center justify-center h-full">
+                      <div className="flex flex-col items-center justify-center h-full space-y-4">
                         <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-purple-400"></div>
+                        <p className="text-purple-300 text-center text-sm max-w-xs">
+                          {loadingMessage}
+                        </p>
                       </div>
                     ) : apiResponse ? (
                       <pre className="text-green-400 font-mono text-xs sm:text-sm overflow-auto">
@@ -475,6 +530,42 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
           </div>
         </footer>
 
+        {/* Modal */}
+        {showModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-800 rounded-xl max-w-md w-full p-6 border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold text-white">Hi there! 👋</h3>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="text-gray-300 text-sm space-y-3">
+                <div className="bg-blue-600/20 border border-blue-500 rounded-lg p-3">
+                  <p className="text-blue-300 font-semibold mb-2">💡 From the DevExcuse API Team:</p>
+                  <p className="text-blue-200 text-xs">
+                    Since we're using Render's free tier to keep this API free for everyone, the backend might take up to a minute to wake up if it's been inactive. Please be patient on your first API call! 🚀
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-center">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors"
+                >
+                  Got it!
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>
