@@ -2,7 +2,7 @@
 
 A fun and free API that provides developers with creative excuses for when things go wrong in their projects. Whether you need to explain why a bug slipped through, why a feature isn't working, or why the deployment failed, we've got you covered with humorous and relatable developer excuses.
 
-[![API Status](https://img.shields.io/badge/API-Status-green.svg)](https://api.devexcuse.com/health)
+[![API Status](https://img.shields.io/badge/API-Status-green.svg)](https://excuses.onrender.com/health)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14+-black.svg)](https://nextjs.org/)
@@ -20,22 +20,22 @@ A fun and free API that provides developers with creative excuses for when thing
 
 ## 🚀 Live Demo
 
-- **API Base URL**: https://api.devexcuse.com
-- **Documentation**: https://devexcuse.com/docs
-- **Health Check**: https://api.devexcuse.com/health
+- **API Base URL**: https://excuses.onrender.com
+- **Documentation**: https://excuses-one.vercel.app/docs
+- **Health Check**: https://excuses.onrender.com/health
 
 ## 📚 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/excuse` | Get a random excuse |
-| `GET` | `/excuse?count=3` | Get multiple excuses |
-| `GET` | `/excuse?category=backend` | Get excuses by category |
-| `GET` | `/excuse?count=3&category=testing` | Get multiple excuses by category |
-| `GET` | `/excuse/devil` | Get the ultimate excuse |
-| `GET` | `/categories` | Get all available categories |
-| `GET` | `/search?q=cache` | Search excuses by keyword |
-| `GET` | `/health` | Check API status and rate limits |
+| Method | Endpoint                           | Description                      |
+| ------ | ---------------------------------- | -------------------------------- |
+| `GET`  | `/excuse`                          | Get a random excuse              |
+| `GET`  | `/excuse?count=3`                  | Get multiple excuses             |
+| `GET`  | `/excuse?category=backend`         | Get excuses by category          |
+| `GET`  | `/excuse?count=3&category=testing` | Get multiple excuses by category |
+| `GET`  | `/excuse/devil`                    | Get the ultimate excuse          |
+| `GET`  | `/categories`                      | Get all available categories     |
+| `GET`  | `/search?q=cache`                  | Search excuses by keyword        |
+| `GET`  | `/health`                          | Check API status and rate limits |
 
 ## 🏗️ Project Structure
 
@@ -62,6 +62,7 @@ excuses/
 ## 🛠️ Technology Stack
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
 - **CORS** - Cross-origin resource sharing
@@ -69,6 +70,7 @@ excuses/
 - **Helmet** - Security headers
 
 ### Frontend
+
 - **Next.js 14** - React framework
 - **Tailwind CSS** - Utility-first CSS framework
 - **Lucide React** - Icon library
@@ -77,82 +79,107 @@ excuses/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Backend Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/excuses.git
    cd excuses
    ```
 
 2. **Install backend dependencies**
+
    ```bash
    cd backend
    npm install
    ```
 
 3. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+   The API will be available at `http://localhost:5500`
+
+   **For production:**
+
    ```bash
    npm start
    ```
 
-   The API will be available at `http://localhost:3000`
-
 ### Frontend Setup
 
 1. **Navigate to frontend directory**
+
    ```bash
    cd ../frontend
    ```
 
 2. **Install frontend dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server**
+
    ```bash
    npm run dev
    ```
 
-   The documentation site will be available at `http://localhost:3001`
+   The documentation site will be available at `http://localhost:3000`
+
+   **For production:**
+
+   ```bash
+   npm run build
+   npm start
+   ```
 
 ## 📖 Usage Examples
 
 ### JavaScript/Node.js
+
 ```javascript
-const response = await fetch('https://api.devexcuse.com/excuse');
+const response = await fetch("https://excuses.onrender.com/excuse");
 const data = await response.json();
 console.log(data.excuse);
 ```
 
 ### Python
+
 ```python
 import requests
 
-response = requests.get('https://api.devexcuse.com/excuse')
+response = requests.get('https://excuses.onrender.com/excuse')
 data = response.json()
 print(data['excuse'])
 ```
 
 ### cURL
+
 ```bash
-curl -X GET "https://api.devexcuse.com/excuse" \
+curl -X GET "https://excuses.onrender.com/excuse" \
   -H "Accept: application/json"
 ```
 
 ### Get Multiple Excuses
+
 ```bash
-curl -X GET "https://api.devexcuse.com/excuse?count=3" \
+curl -X GET "https://excuses.onrender.com/excuse?count=3" \
   -H "Accept: application/json"
 ```
 
 ### Get Excuses by Category
+
 ```bash
-curl -X GET "https://api.devexcuse.com/excuse?category=backend" \
+curl -X GET "https://excuses.onrender.com/excuse?category=backend" \
   -H "Accept: application/json"
 ```
 
@@ -209,12 +236,14 @@ To add new excuses, edit the `backend/excuses.js` file:
 ## 🧪 Testing
 
 ### Backend Testing
+
 ```bash
 cd backend
 npm test
 ```
 
 ### Frontend Testing
+
 ```bash
 cd frontend
 npm test
@@ -223,6 +252,7 @@ npm test
 ## 📦 Deployment
 
 ### Backend Deployment
+
 The backend can be deployed to any Node.js hosting platform:
 
 - **Vercel**: Connect your GitHub repository
@@ -231,6 +261,7 @@ The backend can be deployed to any Node.js hosting platform:
 - **DigitalOcean App Platform**: Simple deployment
 
 ### Frontend Deployment
+
 The frontend is optimized for Vercel deployment:
 
 ```bash
@@ -250,6 +281,7 @@ We welcome contributions! Here's how you can help:
 5. **Open a Pull Request**
 
 ### Contribution Ideas
+
 - Add new excuses to existing categories
 - Create new excuse categories
 - Improve the documentation
@@ -271,10 +303,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Creator**: [Sourav](https://sourav-portfolio-psi.vercel.app/)
 - **Contact**: [Contact Form](https://sourav-portfolio-psi.vercel.app/contact)
-- **API Status**: [Health Check](https://api.devexcuse.com/health)
+- **API Status**: [Health Check](https://excuses.onrender.com/health)
 
 ## ⭐ Star History
 
 If you find this project useful, please consider giving it a star on GitHub!
 
 ---
+
+Made with ❤️ for developers who need a good excuse every now and then.

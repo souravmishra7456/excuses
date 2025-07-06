@@ -14,7 +14,7 @@ const ApiDocumentation = () => {
         setTimeout(() => setCopied(prev => ({ ...prev, [key]: false })), 2000);
     };
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.devexcuse.com';
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://excuses.onrender.com';
 
     const tabs = [
         { id: 'overview', label: 'Overview', icon: Info },
