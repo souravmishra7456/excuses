@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Code, Play, Copy, ExternalLink, Zap, Shield, Globe, CheckCircle } from 'lucide-react';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.devexcuse.com';
@@ -267,6 +267,19 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
     return activeEndpoint === '/search';
   };
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden'; // disables scroll
+    } else {
+      document.body.style.overflow = 'auto'; // restores scroll
+    }
+
+    // Optional cleanup if component is removed while modal is open
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showModal]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Animated Background */}
@@ -532,13 +545,13 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
 
         {/* Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-800 rounded-xl max-w-md w-full p-6 border border-gray-700">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div className="bg-gray-800 rounded-xl max-w-md w-full p-6 border border-gray-700 shadow-xl">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-semibold text-white">Hi there! 👋</h3>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors cursor-pointer"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -565,6 +578,7 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
               </div>
             </div>
           </div>
+
         )}
 
       </div>
