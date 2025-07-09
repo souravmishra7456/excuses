@@ -95,7 +95,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <meta name="google-site-verification" content="vlbin4aTrQE8zViQM6FhohFDbWpx3KUAmM5PsFZBwkw" />
-        <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#7c3aed" />
