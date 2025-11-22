@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Code, Copy, CheckCircle, ExternalLink, ArrowRight, Info, AlertCircle, Terminal, Shield } from 'lucide-react';
 
 const ApiDocumentation = () => {
@@ -15,6 +15,16 @@ const ApiDocumentation = () => {
     };
 
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://excuses.onrender.com';
+
+    const [visitorCount, setVisitorCount] = useState(0);
+
+    useEffect(() => {
+        fetch("/api/visitors")  // GET only
+            .then(res => res.json())
+            .then(data => setVisitorCount(data.count));
+    }, []);
+
+
 
     const tabs = [
         { id: 'overview', label: 'Overview', icon: Info },
@@ -899,22 +909,40 @@ public class Program
                 {/* Footer */}
                 <footer className="container mx-auto px-3 sm:px-6 py-8 sm:py-12 border-t border-gray-700 mt-10 sm:mt-16">
                     <div className="flex flex-col md:flex-row justify-between items-center">
+
+                        {/* Left Section */}
                         <div className="flex items-center space-x-3 mb-4 md:mb-0">
                             <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
                                 <Code className="w-5 h-5 text-white" />
                             </div>
                             <span className="text-gray-300">DevExcuse API</span>
                         </div>
+
+                        {/* Navigation */}
                         <div className="flex space-x-6 text-gray-400">
                             <a href="/" className="hover:text-white transition-colors">Home</a>
                             <a href="/docs" className="text-purple-400 font-semibold">Documentation</a>
                             <a href="https://sourav-portfolio-psi.vercel.app/contact"
-                                target="_blank" className="hover:text-white transition-colors">Contact Us</a>
-                            <a href="https://sourav-portfolio-psi.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-semibold hover:text-purple-600 transition-colors">About the Creator</a>
+                                target="_blank"
+                                className="hover:text-white transition-colors">
+                                Contact Us
+                            </a>
+                            <a href="https://sourav-portfolio-psi.vercel.app/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-purple-400 font-semibold hover:text-purple-600 transition-colors">
+                                About the Creator
+                            </a>
                         </div>
                     </div>
+
                     <div className="text-center text-gray-500 mt-6 sm:mt-8">
                         © 2025 DevExcuse API.
+                    </div>
+
+                    {/* Visitor Count (Read Only) */}
+                    <div className="text-center text-gray-400 mt-2 text-sm">
+                        Visitors: {visitorCount}
                     </div>
                 </footer>
             </div>

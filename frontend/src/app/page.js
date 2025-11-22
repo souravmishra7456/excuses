@@ -14,6 +14,30 @@ const DevExcuseLanding = () => {
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+
+
+  const [visitorCount, setVisitorCount] = useState(0);
+
+  useEffect(() => {
+    const alreadyCounted = sessionStorage.getItem("visitor-counted");
+
+    if (!alreadyCounted) {
+      // First time in this session → increment count
+      fetch("/api/visitors", { method: "POST" })
+        .then((res) => res.json())
+        .then((data) => {
+          setVisitorCount(data.count);
+          sessionStorage.setItem("visitor-counted", "true");
+        });
+    } else {
+      // Session already counted → just read count
+      fetch("/api/visitors")
+        .then((res) => res.json())
+        .then((data) => setVisitorCount(data.count));
+    }
+  }, []);
+
+
   // Show modal on first visit
   React.useEffect(() => {
     const hasSeenModal = localStorage.getItem('hasSeenModal');
@@ -521,6 +545,7 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
         {/* Footer */}
         <footer className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 border-t border-gray-700 mt-12 sm:mt-16">
           <div className="flex flex-col md:flex-row justify-between items-center">
+
             {/* Left - Logo & Name */}
             <div className="flex items-center space-x-2 sm:space-x-3 mb-4 md:mb-0">
               <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
@@ -533,13 +558,18 @@ curl -X GET "${baseUrl}${buildEndpointUrl(activeEndpoint)}" \\
             <div className="flex space-x-6 text-gray-400">
               <a href="/" className="hover:text-white transition-colors">Home</a>
               <a href="/docs" className="text-purple-400 font-semibold">Documentation</a>
-              <a href="https://sourav-portfolio-psi.vercel.app/contact" className="hover:text-white transition-colors" target="_blank">Contact Us</a>
-              <a href="https://sourav-portfolio-psi.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-semibold hover:text-purple-600 transition-colors">About the Creator</a>
+              <a href="https://sourav-portfolio-psi.vercel.app/contact" target="_blank" className="hover:text-white transition-colors">Contact Us</a>
+              <a href="https://sourav-portfolio-psi.vercel.app/" target="_blank" className="text-purple-400 font-semibold hover:text-purple-600 transition-colors">About the Creator</a>
             </div>
           </div>
 
           <div className="text-center text-gray-500 mt-6 sm:mt-8 text-sm">
             © 2025 DevExcuse API.
+          </div>
+
+          {/* Visitor Counter */}
+          <div className="text-center text-gray-400 mt-2 text-sm">
+            Visitors: {visitorCount}
           </div>
         </footer>
 
